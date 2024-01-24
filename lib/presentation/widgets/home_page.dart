@@ -25,28 +25,28 @@ class HomePageState extends State<HomePage>{
       ),
       body: Container(
           height: 300,
-          child: FutureBuilder<List>(
+          child: FutureBuilder<List<String>>(
             future: GetUserData().execute(username),
             builder: (context,snapshot){
               var listUserData = snapshot.data;
-              return Text('tes') ;
-              //   ListView(
-              //   children:
-              //     List.generate(listUserData.length, (index) {
-              //       return GestureDetector(
-              //         onTap: (){},
-              //         child: Card(
-              //           child: Column(
-              //             children: [
-              //               Text('${listUserData[index]}')
-              //             ],
-              //           ),
-              //         ) ,
-              //       )
-              //       ;
-              //     })
-              //   ,
-              // );
+              return
+                ListView(
+                children:
+                  List.generate(listUserData!.length, (index) {
+                    return GestureDetector(
+                      onTap: (){},
+                      child: Card(
+                        child: Column(
+                          children: [
+                            Text('${listUserData[index]}')
+                          ],
+                        ),
+                      ) ,
+                    )
+                    ;
+                  })
+                ,
+              );
             } ,
       )
         ),
