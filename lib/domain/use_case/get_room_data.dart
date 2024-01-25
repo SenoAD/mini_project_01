@@ -2,10 +2,10 @@
 import 'package:mini_project/data/repository/repository_chatroom.dart';
 
 
-class GetUserData{
+class GetRoomData{
   var repository = ChatroomRepository();
   Future<List> execute(String username){
-    return repository.getUserData(username);
+    return repository.getRoomData(username);
 
   }
 }
