@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mini_project/domain/use_case/get_chat_data.dart';
+import 'package:mini_project/domain/use_case/post_chat.dart';
+import 'package:mini_project/domain/entities/chat_data.dart';
 
 class ChatroomPage extends StatefulWidget{
   List chat;
@@ -65,7 +67,12 @@ class ChatroomPageState extends State<ChatroomPage>{
         ),
         Expanded(child: TextFormField(
           controller: _chatroomcontroller,
-        ))
+        )),
+        ElevatedButton(onPressed: (){
+          setState(() {
+            PostChat().execute(ChatData(username: username, text: _chatroomcontroller.text, id: room));
+          });
+        }, child: Text('Send'))
         ]),
 
     ));

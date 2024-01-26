@@ -1,7 +1,8 @@
 import 'package:mini_project/data/data_source/data_chatroom.dart';
 import 'dart:convert';
 
-// import 'package:mini_project/domain/entities/user_data.dart';
+import 'package:mini_project/domain/entities/chat_data.dart';
+import 'package:mini_project/domain/entities/room_data.dart';
 
 class ChatroomRepository {
   var chatroomDatasource = ChatroomDataSource();
@@ -22,5 +23,15 @@ class ChatroomRepository {
     var jsonArray3 = jsonDecode(await chatroomDatasource.getRoomData(username))['data'];
     List listRoomData = List.from(jsonArray3);
     return listRoomData;
+  }
+
+  Future<bool> postChat(ChatData chat) async{
+    var response = await chatroomDatasource.postChat(chat.toJson());
+    return jsonDecode(response)['data'];
+  }
+
+  Future<List> createRoomChat(RoomId roomId) async{
+    var response = await chatroomDatasource.createRoomChat(roomId.toJson());
+    return jsonDecode(response)['data'];
   }
 }

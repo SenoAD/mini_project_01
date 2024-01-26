@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:mini_project/domain/entities/room_data.dart';
 import 'package:mini_project/domain/use_case/get_room_data.dart';
 import 'package:mini_project/domain/use_case/get_user_data.dart';
+import 'package:mini_project/domain/use_case/post_chat.dart';
+import 'package:mini_project/domain/use_case/post_roomchat.dart';
 import 'package:mini_project/presentation/widgets/chatroom_page.dart';
 
 
@@ -14,8 +17,45 @@ class HomePage extends StatefulWidget{
 }
 
 class HomePageState extends State<HomePage>{
+  TextEditingController _searchcontroller = TextEditingController();
   late String username;
   HomePageState(this.username);
+
+  Future<void> _alertDialog() async {
+    showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Peringatan'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: [
+                TextField(
+                  controller: _searchcontroller,
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Username'
+                  ),
+                )
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Chat'),
+              onPressed: () {
+                setState(() {
+                  PostRoomChat().execute(RoomId(username: username, username2: _searchcontroller.text));
+                });
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
   @override
   List<String> roomList = [];
   void initState() {
@@ -26,13 +66,17 @@ class HomePageState extends State<HomePage>{
       });
     });
   }
+
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Home Page'),
         centerTitle: true,
       ),
-      body: Container(
+      body: Column (
+          children :[
+                      Container(
           height: 300,
           child: FutureBuilder(
               future: GetRoomData().execute(username),
@@ -57,7 +101,8 @@ class HomePageState extends State<HomePage>{
                 }
               }),
         ),
-      )
+                      Container(child: ElevatedButton(onPressed: (){_alertDialog();}, child: Text('Tambah Kontak')),)
+    ]))
     ;
 
   }

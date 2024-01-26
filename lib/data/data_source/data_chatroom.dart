@@ -23,4 +23,33 @@ class ChatroomDataSource {
     // print('${tes}');
     return response.body;
   }
+
+  Future postChat(Map<String,dynamic> chat) async{
+    var response = await http.post(
+      Uri.parse('${URL}/api/chat'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, dynamic>{
+        'id' : chat['id'],
+        'from': chat['username'],
+        'text': chat['text'],
+      }),
+    );
+    return response.body;
+  }
+
+  Future createRoomChat(Map<String,dynamic> roomId) async{
+    var response = await http.post(
+      Uri.parse('${URL}/api/room'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, dynamic>{
+        'from' : roomId['username'],
+        'to': roomId['username1'],
+      }),
+    );
+    return response.body;
+  }
 }
